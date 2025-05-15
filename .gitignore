@@ -1,0 +1,10 @@
+# .gitignore
+certs/
+*.pem
+*.key
+*.crt
+*.zip
+*.log
+*.tar.gz
+*.tgz
+*.tar
