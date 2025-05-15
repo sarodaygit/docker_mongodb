@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mongodb-dev:
+    image: mongo:6.0
+    container_name: mongodb-dev
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: devuser
+      MONGO_INITDB_ROOT_PASSWORD: devpass
+    volumes:
+      - mongodb_dev_data:/data/db
+    networks:
+      - mongo_dev_net
+
+volumes:
+  mongodb_dev_data:
+
+networks:
+  mongo_dev_net:
+    driver: bridge

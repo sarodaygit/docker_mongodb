@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mongodb-prod:
+    image: mongo:6.0
+    container_name: mongodb-prod
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: produser
+      MONGO_INITDB_ROOT_PASSWORD: prodpass
+    command: >
+      mongod --auth
+        --tlsMode preferTLS
+        --tlsCertificateKeyFile /certs/mongodb.pem
+        --tlsCAFile /certs/ca.pem
+        --bind_ip_all
+        --tlsAllowConnectionsWithoutCertificates
+
+    volumes:
+      - mongodb_prod_data_tls:/data/db
+      - ./certs:/certs:ro
+    networks:
+      - mongo_net
+
+volumes:
+  mongodb_prod_data_tls:
+
+
+networks:
+  mongo_net:
+    driver: bridge

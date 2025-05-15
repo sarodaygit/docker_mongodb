@@ -1,0 +1,1 @@
+mongosh "mongodb://produser:prodpass@192.168.1.7:27019/?tls=true&tlsCAFile=certs/ca.pem&tlsAllowInvalidHostnames=true" --authenticationDatabase admin
