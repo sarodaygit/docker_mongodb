@@ -113,3 +113,48 @@ Look for `Verify return code: 0 (ok)` and matching `CN = 192.168.1.7`
 ---
 
 Happy developing!
+
+---
+
+## 🧪 Loading Sample Data into MongoDB
+
+You can load sample data into both the **prod** (TLS-enabled) and **dev** (non-TLS) MongoDB containers using the following methods.
+
+### 📥 Option 1: Load from MongoDB Atlas Archive (Recommended for Prod)
+
+Download and restore using:
+curl https://atlas-education.s3.amazonaws.com/sampledata.archive -o sampledata.archive
+https://github.com/ozlerhakan/mongodb-json-files
+```bash
+curl https://atlas-education.s3.amazonaws.com/sampledata.archive -o sampledata.archive
+docker cp sampledata.archive mongodb-prod:/sampledata.archive
+
+# Inside the container:
+docker exec -it mongodb-prod mongorestore --archive=/sampledata.archive --nsInclude=sample_mflix.*
+```
+
+This restores the `sample_mflix` dataset (e.g., movies, comments, users).
+
+---
+
+### 📥 Option 2: Load from GitHub JSON Files (Works for Dev)
+
+Clone the repo:
+
+```bash
+git clone https://github.com/ozlerhakan/mongodb-json-files
+cd mongodb-json-files
+```
+
+Import one or more JSON files (e.g., `students.json`) into dev MongoDB:
+
+```bash
+docker cp students.json mongodb-dev:/students.json
+docker exec -it mongodb-dev mongoimport --db school --collection students --file /students.json --jsonArray --username devuser --password devpass --authenticationDatabase admin
+```
+
+> ℹ️ Adjust the database/collection names as needed based on the files in the repo.
+
+mongorestore   --host localhost   --port 27018   --username devuser   --password devpass   --authenticationDatabase admin --archive=sampledata.archive
+
+---

@@ -16,7 +16,6 @@ services:
         --tlsCAFile /certs/ca.pem
         --bind_ip_all
         --tlsAllowConnectionsWithoutCertificates
-
     volumes:
       - mongodb_prod_data_tls:/data/db
       - ./certs:/certs:ro
@@ -25,7 +24,6 @@ services:
 
 volumes:
   mongodb_prod_data_tls:
-
 
 networks:
   mongo_net:
