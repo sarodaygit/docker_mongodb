@@ -20,11 +20,11 @@ services:
       - mongodb_prod_data_tls:/data/db
       - ./certs:/certs:ro
     networks:
-      - mongo_net
+      - fastapi_mongo_net
 
 volumes:
   mongodb_prod_data_tls:
 
 networks:
-  mongo_net:
-    driver: bridge
+  fastapi_mongo_net:
+    external: true  # 👈 This tells Docker to use an already existing network

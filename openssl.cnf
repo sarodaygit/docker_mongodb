@@ -11,7 +11,7 @@ ST = Karnataka
 L  = Bangalore
 O  = MyCompany
 OU = MongoDB TLS
-CN = MyMongoCA
+CN = mongodb-prod
 
 [ v3_ca ]
 subjectKeyIdentifier = hash
@@ -25,4 +25,5 @@ extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 
 [ alt_names ]
+DNS.1 = mongodb-prod
 IP.1 = 192.168.1.7

@@ -10,6 +10,7 @@ ACTION=$1
 ENV=$2
 
 VALID_ENVS=("dev" "prod" "all")
+NETWORK_NAME="fastapi_mongo_net"
 
 if [[ "$ACTION" != "start" && "$ACTION" != "shutdown" && "$ACTION" != "status" && "$ACTION" != "cleanstart" ]]; then
   echo "❌ Usage: $0 {start|shutdown|status|cleanstart} {dev|prod|all}"
@@ -26,6 +27,16 @@ declare -A COMPOSE_FILES=( ["dev"]="docker-compose.dev.yml" ["prod"]="docker-com
 declare -A PROJECT_NAMES=( ["dev"]="dev_project" ["prod"]="prod_project" )
 declare -A CONFLICT_CONTAINERS=( ["dev"]="mongodb-dev" ["prod"]="mongodb-prod" )
 
+# Ensure shared Docker network exists
+ensure_network_exists() {
+  if ! docker network ls --format '{{.Name}}' | grep -wq "$NETWORK_NAME"; then
+    echo "🌐 Creating Docker network: $NETWORK_NAME"
+    docker network create "$NETWORK_NAME"
+  else
+    echo "✅ Docker network '$NETWORK_NAME' already exists."
+  fi
+}
+
 handle_env() {
   local ACTION=$1
   local ENV=$2
@@ -37,6 +48,8 @@ handle_env() {
     echo "❌ Compose file $FILE not found!"
     return
   fi
+
+  ensure_network_exists
 
   if [[ "$ACTION" == "shutdown" ]]; then
     echo "🛑 Shutting down $ENV..."

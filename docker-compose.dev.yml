@@ -12,11 +12,11 @@ services:
     volumes:
       - mongodb_dev_data:/data/db
     networks:
-      - mongo_dev_net
+      - fastapi_mongo_net
 
 volumes:
   mongodb_dev_data:
 
 networks:
-  mongo_dev_net:
-    driver: bridge
+  fastapi_mongo_net:
+    external: true  # 👈 Let Docker know you're using a pre-created network
