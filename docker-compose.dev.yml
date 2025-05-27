@@ -13,6 +13,7 @@ services:
       - mongodb_dev_data:/data/db
     networks:
       - fastapi_mongo_net
+    restart: unless-stopped  # 👈 Optional: ensures the container restarts unless stopped manually
 
 volumes:
   mongodb_dev_data:
